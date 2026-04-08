@@ -5,8 +5,8 @@ from Pawn import Pawn
 
 
 class Figure(ABC):
-    def __init__(self, color="white", pos: Position = None):
-        self.__color = color
+    def __init__(self, white=True, pos: Position | None = None):
+        self.__white = white
         self.__is_alive = True
         if pos:
             self.pos = Position(pos.x, pos.y)
@@ -14,20 +14,29 @@ class Figure(ABC):
             self.pos = Position()
 
     @property
-    def color(self):
-        return self.__color
+    def white(self):
+        return self.__white
 
     @property
     def is_alive(self):
         return self.__is_alive
 
-    def draw(self):
-        status = "На поле" if self.is_alive else "Взята"
-        print(f"Фигура {self.__class__.__name__}({self.color}) сейчас: {status}")
+    @abstractmethod
+    def __str__(self):
+        return "?"
+
+    @abstractmethod
+    def can_move(self, position: Position, target: Position):
+        pass
+
+    # У пешки != can_move
+    @abstractmethod
+    def can_beat(self, position: Position, target: Position):
+        pass
 
     # *args превратиться в tuple
     @abstractmethod
-    def move(self, *args, target_figure: "Figure" = None):
+    def move(self, *args, target_figure: "Figure | None" = None):
         pass
 
     def _normalize_pos(self, *args):
@@ -35,30 +44,31 @@ class Figure(ABC):
             return Position(args[0], args[1])
         return args[0]
 
-    def __add__(self, name_or_class):
+    # Превращение пешки )))
+    def __add__(self, figure: "str | Figure"):
 
         registry = {"queen": Queen, "rook": Rook, "knight": Knight, "bishop": Bishop}
 
-        if isinstance(name_or_class, Figure):
-            new_class = name_or_class.__class__
+        if isinstance(figure, Figure):
+            new_class = figure.__class__
 
-        elif isinstance(name_or_class, str):
-            target_key = name_or_class.lower()
+        elif isinstance(figure, str):
+            target_key = figure.lower()
             if target_key in registry:
                 new_class = registry[target_key]
             else:
                 print(
-                    f"Ошибка: Фигура {name_or_class} не существует. Создаём Ферзя по умолчанию"
+                    f"Ошибка: Фигура {figure} не существует. Создаём Ферзя по умолчанию"
                 )
                 new_class = Queen
 
-        elif isinstance(name_or_class, type):
-            new_class = name_or_class
+        elif isinstance(figure, type):
+            new_class = figure
 
         else:
             return NotImplemented
 
-        return new_class(self.color, self.pos)
+        return new_class(self.white, self.pos)
 
     def __eq__(self, other):
         if isinstance(other, Figure):
@@ -70,7 +80,7 @@ class Figure(ABC):
         self.pos.x, self.pos.y = -1, -1
 
     def _capture(self, target: "Figure"):
-        if target.color == self.color:
+        if target.white == self.white:
             print("Своих есть нельзя!")
             return False
 
