@@ -1,4 +1,5 @@
-from Figure import *
+from Figure import Figure
+from Position import Position
 
 
 # mixin ??
@@ -25,7 +26,10 @@ class Board:
         return True
 
     def __str__(self):
-        return "" # draw to console
-    
+        return ""  # draw to console
+
     def get_figures(self, white: bool):
         return [f for f in self.__figures if f.figure.white == white]
+
+    def reset(self):
+        self.__init__()
