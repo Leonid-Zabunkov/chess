@@ -6,6 +6,7 @@ class Position:
             self.x = x
             self.y = y
 
+
     def __eq__(self, other):
         if isinstance(other, Position):
             return self.x == other.x and self.y == other.y

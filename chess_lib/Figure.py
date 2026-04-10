@@ -5,24 +5,19 @@ from Pawn import Pawn
 
 
 class Figure(ABC):
-    def __init__(self, white=True, pos: Position | None = None):
+    def __init__(self, white=True):
         self.__white = white
-        self.__is_alive = True
-        if pos:
-            self.pos = Position(pos.x, pos.y)
-        else:
-            self.pos = Position()
+        self.pos: Position | None = None
 
     @property
     def white(self):
         return self.__white
 
-    @property
-    def is_alive(self):
-        return self.__is_alive
+    def __str__(self) -> str:
+        return self.__name__ 
 
     @abstractmethod
-    def __str__(self):
+    def draw_console(self) -> str:
         return "?"
 
     @abstractmethod
@@ -74,19 +69,6 @@ class Figure(ABC):
         if isinstance(other, Figure):
             return self.pos == other.pos
         return False
-
-    def _die(self):
-        self.__is_alive = False
-        self.pos.x, self.pos.y = -1, -1
-
-    def _capture(self, target: "Figure"):
-        if target.white == self.white:
-            print("Своих есть нельзя!")
-            return False
-
-        print(f"Взятие: {self.__class__.__name__} съел {target.__class__.__name__}")
-        target._die()
-        return True
 
 
 # Допилить взятие
