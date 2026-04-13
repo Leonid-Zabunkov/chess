@@ -1,5 +1,7 @@
-from .Position import *
-from .Figure import *
+from typing import Callable
+
+from .Position import Position
+from .Figure import Figure
 
 
 class Move:
@@ -28,7 +30,7 @@ class MoveHistory:
 
     @property
     def last(self):
-        self.__moves[-1]
+        return self.__moves[-1]
 
     @property
     def last_white(self):
@@ -36,3 +38,19 @@ class MoveHistory:
         if last_move:
             return self.__moves[-1].__figure.white
         return None
+
+    def print(self, rounds: int, move_to_str: Callable[["Move"], str]):
+        res = []
+        r, i = 0, 0
+        s = ""
+        while i < len(self.__moves) and r <= rounds:
+            if not i % 2:
+                s = f"{r + 1}. {move_to_str(self.__moves[i])}"
+            else:
+                s += " " + move_to_str(self.__moves[i])
+                res.append(s)
+                r += 1
+            i += 1
+        if i % 2:
+            res.append(s)
+        return res
