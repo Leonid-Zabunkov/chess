@@ -1,2 +1,4 @@
-from chess_lib import Board, Position, Queen, King, Pawn
+from chess_lib.Game import Game
 
+game = Game.standard()
+game.start()

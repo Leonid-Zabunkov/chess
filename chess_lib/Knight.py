@@ -1,10 +1,9 @@
 from typing import override
 
-from Figure import Figure
+from .Figure import Figure
 
 
 class Knight(Figure):
     @override
-    def draw_console(self):
+    def print(self):
         return "♘" if self.white else "♞"
-

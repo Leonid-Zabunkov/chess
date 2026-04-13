@@ -1,11 +1,23 @@
-from Position import *
-from Figure import *
+from .Position import *
+from .Figure import *
+
 
 class Move:
-    def __init__(self, figure: Figure, source: Position, target: Position):
-        self.__figure = figure
-        self.__source = source
-        self.__target = target
+    def __init__(
+        self,
+        figure: Figure,
+        source: Position,
+        target: Position,
+        beats_figure: Figure | None = None,
+    ):
+        self.figure = figure
+        self.source = source
+        self.target = target
+        self.beats = beats_figure
+        self.check = False
+        self.check_mate = False
+        self.pate = False
+
 
 class MoveHistory:
     def __init__(self):
@@ -17,7 +29,7 @@ class MoveHistory:
     @property
     def last(self):
         self.__moves[-1]
-        
+
     @property
     def last_white(self):
         last_move = self.__moves[-1]
