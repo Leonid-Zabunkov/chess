@@ -27,6 +27,9 @@ class MoveHistory:
 
     def __add__(self, move: Move):
         self.__moves.append(move)
+        
+    def clear(self):
+        self.__moves.clear()
 
     @property
     def last(self):

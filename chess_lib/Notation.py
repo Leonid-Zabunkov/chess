@@ -1,3 +1,4 @@
+from .GameError import FigureError
 from .Figure import Figure
 from .Move import Move
 from .Position import Position
@@ -14,7 +15,8 @@ __registry = {"K": King, "Q": Queen, "R": Rook, "B": Bishop, "N": Knight, "P": P
 # Parse d3 -> Position
 def position(s: str):
     col, row = s[0:2]
-    return Position(ord(row) - ord("1"), ord(col) - ord("a"))
+    pos = Position(ord(row) - ord("1"), ord(col) - ord("a"))
+    return pos.validate()
 
 
 def to_str(arg: Position | Figure | Move):
@@ -38,7 +40,7 @@ def figure(notation: str):
         figure_class = __registry[key]
         return figure_class(white)
 
-    raise Exception("Incorrect figure")
+    raise FigureError("Incorrect figure")
 
 
 # Simple notation: d1-h5

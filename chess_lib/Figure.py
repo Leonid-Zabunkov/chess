@@ -1,17 +1,18 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+
+from .GameError import FigureError
+from .PrintableMixin import PrintableMixin
+from .FigureRegistryMeta import FigureRegistryMeta
 from .Position import Position
 
 
-class Figure(ABC):
+class Figure(PrintableMixin, metaclass=FigureRegistryMeta):
     def __init__(self, white=True):
         self.__white = white
 
     @property
     def white(self):
         return self.__white
-
-    def __str__(self) -> str:
-        return ("White " if self.white else "Black ") + self.__class__.__name__
 
     @abstractmethod
     def print(self) -> str:
@@ -26,7 +27,10 @@ class Figure(ABC):
     def can_beat(self, position: Position, target: Position):
         pass
 
-    # *args превратиться в tuple
-    # @abstractmethod
-    def move(self, *args, target_figure: "Figure | None" = None):
-        pass
+    @staticmethod
+    def create(name: str, white=True) -> "Figure":
+        cls = FigureRegistryMeta.registry.get(name)
+        if not cls:
+            available = ", ".join(FigureRegistryMeta.registry.keys())
+            raise FigureError(f"Фигура '{name}' не найдена. Доступны: {available}")
+        return cls(white)

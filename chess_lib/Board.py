@@ -1,3 +1,4 @@
+from .GameError import MoveError
 from .Move import Move
 from .Figure import Figure
 from .Position import Position
@@ -15,20 +16,13 @@ class FigureOnBoard:
 
 class Board:
     def __init__(self):
-        # Избыточное состояние: надо избавиться
         self.__board: list[list[Figure | None]] = [[None] * 8 for _ in range(8)]
 
     def apply_move(self, source: Position, target: Position):
-        """
-        Осуществляет перемещение фигуры с позиции source в позицию target.
-
-        :param source: позиция "откуда"
-        :param target: позиция "куда"
-        :return: Move - ход с информацией о ходе
-        """
         figure = self.get_figure_at_position(source)
         if not figure:
-            raise Exception(f"No figure at position {source}")
+            raise MoveError(f"No figure at position {source}")
+        
         self.set_figure(None, source)
         old = self.set_figure(figure, target)
         return Move(figure, source, target, old)
@@ -42,15 +36,11 @@ class Board:
     def __str__(self):
         return f"Board with figures:\n{'\n'.join(str(fig) for fig in self.__figures)}"
 
-    # def get_figures(self, white: bool):
-    #     return [f for f in self.__figures if f.figure.white == white]
-
     def get_figure_at_position(self, position: Position):
         x, y = position
         return self.__board[x][y]
-
-    def reset(self):
-        self.__init__()
+    
+    ### Printing Board ###
 
     def __add_border(self, lines: list[str]):
         res = []
