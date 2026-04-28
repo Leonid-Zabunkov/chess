@@ -5,6 +5,7 @@ from chess_lib.Game_Fisher import GameFisher
 from chess_lib.Player import HumanPlayer
 
 game = GameStandard()
+# game = GameFisher()
 
 white = HumanPlayer("Max", white=True, timer=600)
 black = HumanPlayer("Leon", white=False, timer=300)

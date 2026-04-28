@@ -18,7 +18,7 @@ class Player(PrintableMixin):
         return f"Белые: {self.name}" if self.white else f"Черные: {self.name}"
 
     @abstractmethod
-    async def make_turn(slef, board: Board) -> tuple[Position, Position]:
+    async def make_turn(self, board: Board) -> tuple[Position, Position]:
         pass
 
 
