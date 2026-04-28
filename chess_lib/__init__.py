@@ -9,6 +9,7 @@ from .King import King
 from .Game import Game
 
 from .Position import Position
-from .Move import Move, MoveHistory
+from .Move import Move
+from .MoveHistory import MoveHistory
 
 from .Notation import *

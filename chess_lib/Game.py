@@ -6,7 +6,8 @@ from .Logging import log_call
 from .PrintableMixin import PrintableMixin
 from .GameError import GameError
 from .Board import Board
-from .Move import MoveHistory, Move
+from .Move import Move
+from .MoveHistory import MoveHistory
 from . import Notation as notation
 
 
@@ -23,6 +24,7 @@ class Game(PrintableMixin):
         self._board = Board()
         self._round = 1
         self._history = MoveHistory()
+        self._white_turn = True
 
     def print(self):
         players = f"{self._white_player.print()}\n{self._black_player.print()}"
@@ -64,7 +66,8 @@ class Game(PrintableMixin):
     async def start(self, white_player: Player, black_player: Player):
         self._white_player = white_player
         self._black_player = black_player
-        self._player = white_player
+        
+        self._player = white_player if self._white_turn else black_player
         print(self.print())
 
         while True:
@@ -84,14 +87,13 @@ class Game(PrintableMixin):
             print(self.print())
 
         self.finish()
-        
+
     def switch_player(self):
         if self._player == self._white_player:
             self._player = self._black_player
         else:
             self._player = self._white_player
             self._round += 1
-
 
     def finish(self):
         self.total_timer_task.cancel()

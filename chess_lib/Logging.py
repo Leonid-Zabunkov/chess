@@ -1,24 +1,20 @@
-from functools import wraps
 from typing import Callable
 
 logs: list[str] = []
 
 def log_get(func: Callable):
-    @wraps(func)
     def wrapper(self):
         logs.append(f"GET: {func.__qualname__}")
         return func(self)
     return wrapper
 
 def log_set(func: Callable):
-    @wraps(func)
     def wrapper(self, value):
         logs.append(f"SET: {func.__qualname__} = {value!r}")
         return func(self, value)
     return wrapper
 
 def log_call(func: Callable):
-    @wraps(func)
     def wrapper(*args, **kwargs):
         # Методы класса имеют составное имя
         is_method = "." in func.__qualname__ and args
