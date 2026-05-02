@@ -2,13 +2,15 @@ from tkinter import *
 
 
 class ChessSettings:
-    def __init__(self, master):
+    def __init__(self, master: Tk):
         self.__master = master
         self.__master.title("Настройки игры")
+        self.__master.geometry("300x300")
+        self.__master.resizable(False, False)
         # сохраняем данные для main
         self.__result = None
 
-        self.__mode = StringVar(value="Standard")
+        self.__mode = StringVar(value="standard")
         self.__white_name = StringVar(value="Max")
         self.__black_name = StringVar(value="Leon")
 
@@ -142,3 +144,6 @@ class ChessSettings:
 
     def exit_app(self):
         self.__master.destroy()
+
+    def get_data(self):
+        return self.__result

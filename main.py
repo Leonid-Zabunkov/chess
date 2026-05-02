@@ -27,7 +27,6 @@ async def console_set():
 
 def get_game_settings():
     root = Tk()
-    root.geometry("300x300")
     app = ChessSettings(root)
     root.mainloop()
 
@@ -46,15 +45,16 @@ async def main(game_mode="w_mode"):
             print("Настройки не были выбраны. Выход.")
             return
 
-        mode = data["mode"]
-        if mode == "standard":
-            game = GameStandard()
-        elif mode == "fisher":
-            game = GameFisher()
-        elif mode == "puzzle":
-            game = GamePuzzle.get(data["puzzle_id"])
-        else:
-            game = GameStandard()
+        mode = data.get("mode")
+        match mode:
+            case "standard":
+                game = GameStandard()
+            case "fisher":
+                game = GameFisher()
+            case "puzzle":
+                game = GamePuzzle.get(data["puzzle_id"])
+            case _:
+                game = GameStandard()
 
         # 3. Создаем игроков
         white = HumanPlayer(data["white"], white=True, timer=data["time_w"])
