@@ -26,8 +26,6 @@ class Board:
         x, y = position
         return self.__board[x][y]
 
-    ### Printing Board ###
-
     def __add_border(self, lines: list[str]):
         res = []
         res.append("╔══════════════════════════════╗")

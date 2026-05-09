@@ -1,10 +1,10 @@
 from abc import abstractmethod
 
+from .PrintableMixin import PrintableMixin
 from .Position import Position
-from .FigureOnBoard import FigureOnBoard
 
 
-class Figure:
+class Figure(PrintableMixin):
     def __init__(self, white=True):
         self.__white = white
 
@@ -24,6 +24,3 @@ class Figure:
     # @abstractmethod
     def can_beat(self, position: Position, target: Position):
         pass
-
-    def __add__(self, position: Position) -> FigureOnBoard:
-        return FigureOnBoard(self, position)
