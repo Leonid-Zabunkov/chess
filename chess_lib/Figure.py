@@ -1,6 +1,7 @@
 from abc import abstractmethod
 
 from .Logging import log_call
+from .GameError import FigureError
 from .PrintableMixin import PrintableMixin
 from .FigureRegistryMeta import FigureRegistryMeta
 from .Position import Position
@@ -31,4 +32,7 @@ class Figure(PrintableMixin, metaclass=FigureRegistryMeta):
     @staticmethod
     def create(name: str, white=True) -> "Figure":
         cls = FigureRegistryMeta.registry.get(name)
+        if not cls:
+            available = ", ".join(FigureRegistryMeta.registry.keys())
+            raise FigureError(f"Фигура '{name}' не найдена. Доступны: {available}")
         return cls(white)

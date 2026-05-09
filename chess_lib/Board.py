@@ -1,5 +1,5 @@
+from .GameError import MoveError
 from .Logging import log_call
-
 from .Move import Move
 from .Figure import Figure
 from .Position import Position
@@ -11,6 +11,9 @@ class Board:
 
     def apply_move(self, source: Position, target: Position):
         figure = self.get_figure_at_position(source)
+        if not figure:
+            raise MoveError(f"No figure at position {source}")
+
         self.set_figure(None, source)
         old = self.set_figure(figure, target)
         return Move(figure, source, target, old)

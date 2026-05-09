@@ -10,3 +10,5 @@ from .King import King
 from .Position import Position
 from .Move import Move
 from .MoveHistory import MoveHistory
+
+from .Notation import *

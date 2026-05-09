@@ -1,3 +1,4 @@
+from .GameError import FigureError
 from .Figure import Figure
 from .Move import Move
 from .Position import Position
@@ -39,7 +40,7 @@ def figure(notation: str):
         figure_class = __registry[key]
         return figure_class(white)
 
-    raise ValueError("Incorrect figure")
+    raise FigureError("Incorrect figure")
 
 
 # Simple notation: d1-h5
