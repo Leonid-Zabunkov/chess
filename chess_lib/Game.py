@@ -66,7 +66,6 @@ class Game(PrintableMixin):
     async def start(self, white_player: Player, black_player: Player):
         self._white_player = white_player
         self._black_player = black_player
-
         self._player = white_player if self._white_turn else black_player
         print(self.print())
 
