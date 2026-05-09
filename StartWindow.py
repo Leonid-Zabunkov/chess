@@ -105,8 +105,8 @@ class ChessSettings:
             ipady=1,  # Увеличит высоту кнопки внутри
         )
 
-    def __start_game(self):
-        self.__result = {
+    def get_data(self):
+        result = {
             "mode": self.__mode.get(),
             "white": self.__white_name.get(),
             "black": self.__black_name.get(),
@@ -115,6 +115,7 @@ class ChessSettings:
             "puzzle_id": int(self.__puzzle_id.get()),
         }
         self.__master.destroy()
+        return result
 
     def __toggle_mode(self):
         # Если выбрали пазл - показываем поле ID, иначе прячем
