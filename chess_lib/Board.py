@@ -1,3 +1,5 @@
+from .Logging import log_call
+
 from .Move import Move
 from .Figure import Figure
 from .Position import Position
@@ -34,6 +36,7 @@ class Board:
         res.append("╚══════════════════════════════╝")
         return res
 
+    @log_call
     def print(self, border=False):
         res = []
         res.append("   a  b  c  d  e  f  g  h   ")

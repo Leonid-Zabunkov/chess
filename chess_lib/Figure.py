@@ -1,10 +1,12 @@
 from abc import abstractmethod
 
+from .Logging import log_call
 from .PrintableMixin import PrintableMixin
+from .FigureRegistryMeta import FigureRegistryMeta
 from .Position import Position
 
 
-class Figure(PrintableMixin):
+class Figure(PrintableMixin, metaclass=FigureRegistryMeta):
     def __init__(self, white=True):
         self.__white = white
 
@@ -13,6 +15,7 @@ class Figure(PrintableMixin):
         return self.__white
 
     @abstractmethod
+    @log_call
     def print(self) -> str:
         return "?"
 
@@ -24,3 +27,8 @@ class Figure(PrintableMixin):
     # @abstractmethod
     def can_beat(self, position: Position, target: Position):
         pass
+
+    @staticmethod
+    def create(name: str, white=True) -> "Figure":
+        cls = FigureRegistryMeta.registry.get(name)
+        return cls(white)

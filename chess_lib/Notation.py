@@ -39,6 +39,8 @@ def figure(notation: str):
         figure_class = __registry[key]
         return figure_class(white)
 
+    raise ValueError("Incorrect figure")
+
 
 # Simple notation: d1-h5
 def move(turn: str) -> tuple[Position, Position]:
